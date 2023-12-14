@@ -16,6 +16,50 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(result){
+    this.result =0
+  }
+
+  add(num){
+    this.result+=num
+  }
+
+  subtract(num){
+    this.result-=num
+  }
+
+  multiply(num){
+    this.result*=num
+  }
+
+  divide(num){
+    if(num==0) {
+      throw new Error('Divide by zero')
+    }
+    this.result/=num
+  }
+
+  clear(){
+    this.result =0
+  }
+
+  getResult(){
+    return this.result
+  }
+
+  calculate(str){
+    str = str.trim()
+    try {
+      this.result = eval(str)
+      if(!Number.isFinite(this.result)){
+        throw new Error('Invalid input')
+      }
+    }catch{
+      throw new Error('Invalid input')
+    }
+  }
+
+}
 
 module.exports = Calculator;

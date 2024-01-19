@@ -14,7 +14,18 @@ const app = express();
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
-}, 1000)
+}, 7000)
+
+app.use(function(req,res,next){
+  const userId = req.headers["user-id"]
+  numberOfRequestsForUser[userId]++
+  if(numberOfRequestsForUser[userId]>5){
+    res.status(404).send('server throttling on!')
+  }else {
+    numberOfRequestsForUser[userId]=1
+    next()
+  }
+})
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
@@ -23,5 +34,7 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+app.listen(3000)
 
 module.exports = app;
